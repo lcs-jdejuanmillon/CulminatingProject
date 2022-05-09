@@ -8,26 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var input = ""
+    func validInput(input: String) -> Bool {
+        if let _ = Double(input) {
+            return true
+        }
+        return false
+    }
+    func value(input: String) -> Double {
+        if let value = Double(input) {
+            return value
+        }
+        return 0
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Toggle(isOn: .constant(true), label: {Text("Account for significant figures")})
+            Text("Use 'e' or 'E' for scientific notation. \"1.2e3\", \"1.2E3\", and \"1200\" are all valid and equivalent inputs but \"1.2×10^3\" is not.")
             HStack {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.blue)
                 Text("Knowns:")
             }
             HStack {
-                Text("Displacement:")
-                Text("3.45")
+                Text("Displacement =")
+                TextField("Value", text: $input)
                 Text("m/s")
             }
             HStack {
-                Text("Time:")
+                Text("Time =")
                 Text("2.0")
                 Text("s")
             }
             HStack {
-                Text("Acceleration:")
+                Text("Acceleration =")
                 Text("-9.80")
                 Text("m/s2")
             }
