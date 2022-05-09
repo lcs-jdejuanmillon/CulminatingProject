@@ -21,10 +21,46 @@ struct ContentView: View {
         }
         return 0
     }
+    func sigFigCounter(input: String) -> Int {
+        if !validInput(input: input) {
+            return 100
+        }
+        var isSigFig = true
+        var hasDecimal = false
+        var sigFigCounter = 0
+        var zeroCounter = 0
+        for currentCharacter in input {
+            if currentCharacter != "0" {
+                isSigFig = true
+            }
+            if isSigFig {
+                if currentCharacter == "e" || currentCharacter == "E" {
+                    break
+                }
+                if hasDecimal {
+                    sigFigCounter += 1
+                    continue
+                }
+                if currentCharacter == "." {
+                    hasDecimal = true
+                    sigFigCounter += zeroCounter
+                    continue
+                }
+                if currentCharacter == "0" {
+                    zeroCounter += 1
+                }
+                else {
+                    sigFigCounter += zeroCounter + 1
+                    zeroCounter = 0
+                }
+            }
+        }
+        return sigFigCounter
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Toggle(isOn: .constant(true), label: {Text("Account for significant figures")})
-            Text("Use 'e' or 'E' for scientific notation. \"1.2e3\", \"1.2E3\", and \"1200\" are all valid and equivalent inputs but \"1.2×10^3\" is not.")
+            Text("Use 'e' or 'E' for scientific notation. \"1.2e3\", \"1.2E3\", and \"1200\" are all valid and equivalent inputs but \"1.2×10^3\" and any other format is not.")
             HStack {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.blue)
