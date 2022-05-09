@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State var input = ""
+    @State var customSigFigs = false
+    @State var numberSigFigs = 1
     func validInput(input: String) -> Bool {
         if let _ = Double(input) {
             return true
@@ -59,7 +61,9 @@ struct ContentView: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Toggle(isOn: .constant(true), label: {Text("Account for significant figures")})
+            Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
+            Stepper(value: $numberSigFigs, in: 1...10, step: 1, label: {Text("Number of Significant Figures: \(numberSigFigs)")})
+                .opacity(customSigFigs ? 1.0 : 0.0)
             Text("Use 'e' or 'E' for scientific notation. \"1.2e3\", \"1.2E3\", and \"1200\" are all valid and equivalent inputs but \"1.2×10^3\" and any other format is not.")
             HStack {
                 Image(systemName: "plus.circle")
