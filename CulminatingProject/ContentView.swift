@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var customSigFigs = false
     @State var numberSigFigs = 1
-    @State var listOfKnowns: [Variable] = [Variable(typeOfVariable: 1, input: "", unit: 0)]
+    @State var listOfKnowns = [Variable(typeOfVariable: 1, input: "", unit: 0)]
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
@@ -20,39 +20,28 @@ struct ContentView: View {
             HStack {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.blue)
+                    .onTapGesture {
+                        listOfKnowns.append(Variable(typeOfVariable: 1, input: "", unit: 0))
+                    }
                 Text("Knowns:")
             }
-            HStack {
-                Picker("Type of known", selection: $listOfKnowns[0].typeOfVariable) {
-                    ForEach(0..<types.count, id: \.self) { i in
-                        Text(types[i])
+            ForEach(0..<listOfKnowns.count, id: \.self) { i in
+                HStack {
+                    Picker("Type of known", selection: $listOfKnowns[i].typeOfVariable) {
+                        ForEach(0..<types.count, id: \.self) { j in
+                            Text(types[j])
+                        }
+                    }
+                    .onChange(of: listOfKnowns[i].typeOfVariable) { _ in
+                        listOfKnowns[i].unit = 0
+                    }
+                    TextField("Value", text: $listOfKnowns[i].input)
+                    Picker("Type of known", selection: $listOfKnowns[i].unit) {
+                        ForEach(0..<unitValues[listOfKnowns[i].typeOfVariable].count, id: \.self) { j in
+                            Text(unitText[listOfKnowns[i].typeOfVariable][j])
+                        }
                     }
                 }
-                .onChange(of: listOfKnowns[0].typeOfVariable) { _ in
-                    listOfKnowns[0].unit = 0
-                }
-                TextField("Value", text: $listOfKnowns[0].input)
-                Picker("Type of known", selection: $listOfKnowns[0].unit) {
-                    ForEach(0..<unitValues[listOfKnowns[0].typeOfVariable].count, id: \.self) { i in
-                        Text(unitText[listOfKnowns[0].typeOfVariable][i])
-                    }
-                }
-            }
-            HStack {
-                Text("Time =")
-                Text("2.0")
-                Text("s")
-            }
-            HStack {
-                Text("Acceleration =")
-                Text("-9.80")
-                Text("m/s2")
-            }
-            HStack {
-                Text("Solve for:")
-                Text("Initial Velocity")
-                Text("in")
-                Text("m/s")
             }
             HStack {
                 Spacer()
