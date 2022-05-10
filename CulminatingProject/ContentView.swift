@@ -25,11 +25,18 @@ struct ContentView: View {
             HStack {
                 Picker("Type of known", selection: $listOfKnowns[0].typeOfVariable) {
                     ForEach(0..<types.count, id: \.self) { i in
-                        Text(types[i]).tag(i)
+                        Text(types[i])
                     }
                 }
+                .onChange(of: listOfKnowns[0].typeOfVariable) { _ in
+                    listOfKnowns[0].unit = 0
+                }
                 TextField("Value", text: $listOfKnowns[0].input)
-                Text("m/s")
+                Picker("Type of known", selection: $listOfKnowns[0].unit) {
+                    ForEach(0..<unitValues[listOfKnowns[0].typeOfVariable].count, id: \.self) { i in
+                        Text(unitText[listOfKnowns[0].typeOfVariable][i])
+                    }
+                }
             }
             HStack {
                 Text("Time =")
