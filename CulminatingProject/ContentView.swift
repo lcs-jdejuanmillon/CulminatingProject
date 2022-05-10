@@ -8,57 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var input = ""
     @State var customSigFigs = false
     @State var numberSigFigs = 1
-    func validInput(input: String) -> Bool {
-        if let _ = Double(input) {
-            return true
-        }
-        return false
-    }
-    func value(input: String) -> Double {
-        if let value = Double(input) {
-            return value
-        }
-        return 0
-    }
-    func sigFigCounter(input: String) -> Int {
-        if !validInput(input: input) {
-            return 100
-        }
-        var isSigFig = true
-        var hasDecimal = false
-        var sigFigCounter = 0
-        var zeroCounter = 0
-        for currentCharacter in input {
-            if currentCharacter != "0" {
-                isSigFig = true
-            }
-            if isSigFig {
-                if currentCharacter == "e" || currentCharacter == "E" {
-                    break
-                }
-                if hasDecimal {
-                    sigFigCounter += 1
-                    continue
-                }
-                if currentCharacter == "." {
-                    hasDecimal = true
-                    sigFigCounter += zeroCounter
-                    continue
-                }
-                if currentCharacter == "0" {
-                    zeroCounter += 1
-                }
-                else {
-                    sigFigCounter += zeroCounter + 1
-                    zeroCounter = 0
-                }
-            }
-        }
-        return sigFigCounter
-    }
+    @State var listOfKnowns: [Variable] = [Variable(typeOfVariable: 1, input: "", unit: 0)]
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
@@ -71,8 +23,12 @@ struct ContentView: View {
                 Text("Knowns:")
             }
             HStack {
-                Text("Displacement =")
-                TextField("Value", text: $input)
+                Picker("Type of known", selection: $listOfKnowns[0].typeOfVariable) {
+                    ForEach(0..<types.count, id: \.self) { i in
+                        Text(types[i]).tag(i)
+                    }
+                }
+                TextField("Value", text: $listOfKnowns[0].input)
                 Text("m/s")
             }
             HStack {
