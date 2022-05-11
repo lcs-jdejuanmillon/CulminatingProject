@@ -27,7 +27,7 @@ struct Variable {
             }
             return Double(input)!
         }
-        return 0
+        return 1
     }
     var sigFigs: Int {
         if !validInput {

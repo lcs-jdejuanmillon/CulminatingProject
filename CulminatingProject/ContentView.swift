@@ -16,7 +16,7 @@ struct ContentView: View {
     @State var solutionUnit = 0
     @State var aux = [0]
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading) {
             Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
             Stepper(value: $numberSigFigs, in: 1...10, step: 1, label: {Text("Number of Significant Figures: \(numberSigFigs)")})
                 .opacity(customSigFigs ? 1.0 : 0.0)
@@ -54,9 +54,14 @@ struct ContentView: View {
                         }
                     }
                 }
-                Text("* Give a valid numeric value for the \(types[listOfKnowns[i].typeOfVariable])")
-                    .opacity(listOfKnowns[i].validInput ? 0.0 : 1.0)
-                    .foregroundColor(.red)
+                ZStack {
+                    Text("* Give a valid numeric value for the \(types[listOfKnowns[i].typeOfVariable])")
+                        .opacity(listOfKnowns[i].validInput ? 0.0 : 1.0)
+                    Text("* \(types[listOfKnowns[i].typeOfVariable]) has to be positive")
+                        .opacity(isVector[listOfKnowns[i].typeOfVariable] || !listOfKnowns[i].validInput || listOfKnowns[i].value > 0 ? 0.0 : 1.0)
+                }
+                .foregroundColor(.red)
+                .font(.caption2)
             }
             HStack {
                 Text("Solve for:")
@@ -86,6 +91,7 @@ struct ContentView: View {
                 .cornerRadius(20)
                 Spacer()
             }
+            .opacity(listOfKnowns.count < 3 ? 0.0 : 1.0)
         }
     }
     func list(i: Int) -> [Int] {
