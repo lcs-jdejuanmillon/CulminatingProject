@@ -54,6 +54,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                Text("* Give a valid numeric value for the \(types[listOfKnowns[i].typeOfVariable])")
+                    .opacity(listOfKnowns[i].validInput ? 0.0 : 1.0)
+                    .foregroundColor(.red)
             }
             HStack {
                 Text("Solve for:")
