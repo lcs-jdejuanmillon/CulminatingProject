@@ -12,6 +12,9 @@ struct Variable {
     var input: String
     var unit: Int
     var validInput: Bool {
+        if input == "g" && types[typeOfVariable] == "Acceleration" {
+            return true
+        }
         if let _ = Double(input) {
             return true
         }
@@ -19,6 +22,9 @@ struct Variable {
     }
     var value: Double {
         if validInput {
+            if input == "g" && types[typeOfVariable] == "Acceleration" {
+                return 9.8
+            }
             return Double(input)!
         }
         return 0
