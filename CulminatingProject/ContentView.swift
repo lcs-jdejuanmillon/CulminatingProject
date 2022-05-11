@@ -11,7 +11,9 @@ struct ContentView: View {
     @State var customSigFigs = false
     @State var numberSigFigs = 1
     @State var listOfKnowns = [Variable(typeOfVariable: 0, input: "", unit: 0)]
-    @State var isNotUsed = [false, true, true, true, true]
+    @State var isNotUsed = [false, false, true, true, true]
+    @State var solutionType = 1
+    @State var solutionUnit = 0
     @State var aux = [0]
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -35,7 +37,7 @@ struct ContentView: View {
             ForEach(0..<listOfKnowns.count - 1, id: \.self) { i in
                 HStack {
                     Picker("Type of known", selection: $listOfKnowns[i].typeOfVariable) {
-                        ForEach(list(i: i), id: \.self) { j in
+                        ForEach(list(i: listOfKnowns[i].typeOfVariable), id: \.self) { j in
                             Text(types[j])
                         }
                     }
@@ -46,10 +48,29 @@ struct ContentView: View {
                         listOfKnowns[i].unit = 0
                     }
                     TextField("Value", text: $listOfKnowns[i].input)
-                    Picker("Type of known", selection: $listOfKnowns[i].unit) {
+                    Picker("Units", selection: $listOfKnowns[i].unit) {
                         ForEach(0..<unitValues[listOfKnowns[i].typeOfVariable].count, id: \.self) { j in
                             Text(unitText[listOfKnowns[i].typeOfVariable][j])
                         }
+                    }
+                }
+            }
+            HStack {
+                Text("Solve for:")
+                Picker("Type of known", selection: $solutionType) {
+                    ForEach(list(i: solutionType), id: \.self) { j in
+                        Text(types[j])
+                    }
+                }
+                .onChange(of: solutionType) { [solutionType] newValue in
+                    isNotUsed[solutionType] = true
+                    isNotUsed[newValue] = false
+                    solutionUnit = 0
+                }
+                Text("in:")
+                Picker("Units", selection: $solutionUnit) {
+                    ForEach(0..<unitValues[solutionType].count, id: \.self) { j in
+                        Text(unitText[solutionType][j])
                     }
                 }
             }
@@ -67,7 +88,7 @@ struct ContentView: View {
     func list(i: Int) -> [Int] {
         var list: [Int] = []
         for j in 0..<types.count {
-            if isNotUsed[j] || j == listOfKnowns[i].typeOfVariable {
+            if isNotUsed[j] || i == j {
                 list.append(j)
             }
         }
