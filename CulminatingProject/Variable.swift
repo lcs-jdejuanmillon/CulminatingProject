@@ -23,7 +23,7 @@ struct Variable {
     var value: Double {
         if validInput {
             if input == "g" && types[typeOfVariable] == "Acceleration" {
-                return 9.8 / unit
+                return 9.8 / Double(unit)
             }
             return Double(input)!
         }

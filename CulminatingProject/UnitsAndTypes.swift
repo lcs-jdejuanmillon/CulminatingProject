@@ -8,7 +8,7 @@
 import Foundation
 
 let types = ["Time", "Displacement", "Initial Velocity", "Final Velocity", "Acceleration"]
-
+let isVector = [false, true, true, true, true]
 struct unit {
     let text: String
     let value: Double
