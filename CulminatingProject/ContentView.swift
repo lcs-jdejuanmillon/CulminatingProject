@@ -4,13 +4,15 @@
 //
 //  Created by Jacobo de Juan Millon on 2022-05-08.
 //
-
+// Task
 import SwiftUI
 
 struct ContentView: View {
     @State var customSigFigs = false
     @State var numberSigFigs = 1
-    @State var listOfKnowns = [Variable(typeOfVariable: 1, input: "", unit: 0)]
+    @State var listOfKnowns = [Variable(typeOfVariable: 0, input: "", unit: 0)]
+    @State var isNotUsed = [false, true, true, true, true]
+    @State var aux = [0]
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
@@ -20,19 +22,27 @@ struct ContentView: View {
             HStack {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.blue)
+                    .opacity(listOfKnowns.count == types.count ? 0.0 : 1.0)
                     .onTapGesture {
-                        listOfKnowns.append(Variable(typeOfVariable: 1, input: "", unit: 0))
+                        let x = list(i: 0)
+                        let y = isNotUsed[x[0]] ? x[0] : x[1]
+                        listOfKnowns.append(Variable(typeOfVariable: y, input: "", unit: 0))
+                        isNotUsed[y] = false
+                        aux.append(y)
                     }
                 Text("Knowns:")
             }
-            ForEach(0..<listOfKnowns.count, id: \.self) { i in
+            ForEach(0..<listOfKnowns.count - 1, id: \.self) { i in
                 HStack {
                     Picker("Type of known", selection: $listOfKnowns[i].typeOfVariable) {
-                        ForEach(0..<types.count, id: \.self) { j in
+                        ForEach(list(i: i), id: \.self) { j in
                             Text(types[j])
                         }
                     }
-                    .onChange(of: listOfKnowns[i].typeOfVariable) { _ in
+                    .onChange(of: listOfKnowns[i].typeOfVariable) { newValue in
+                        isNotUsed[aux[i]] = true
+                        isNotUsed[newValue] = false
+                        aux[i] = newValue
                         listOfKnowns[i].unit = 0
                     }
                     TextField("Value", text: $listOfKnowns[i].input)
@@ -53,6 +63,15 @@ struct ContentView: View {
                 Spacer()
             }
         }
+    }
+    func list(i: Int) -> [Int] {
+        var list: [Int] = []
+        for j in 0..<types.count {
+            if isNotUsed[j] || j == listOfKnowns[i].typeOfVariable {
+                list.append(j)
+            }
+        }
+        return list
     }
 }
 
