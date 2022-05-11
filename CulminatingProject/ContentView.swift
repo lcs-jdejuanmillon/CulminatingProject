@@ -24,7 +24,7 @@ struct ContentView: View {
             HStack {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.blue)
-                    .opacity(listOfKnowns.count == types.count ? 0.0 : 1.0)
+                    .opacity(listOfKnowns.count == types.count - 1 ? 0.0 : 1.0)
                     .onTapGesture {
                         let x = list(i: 0)
                         let y = isNotUsed[x[0]] ? x[0] : x[1]
@@ -34,7 +34,7 @@ struct ContentView: View {
                     }
                 Text("Knowns:")
             }
-            ForEach(0..<listOfKnowns.count - 1, id: \.self) { i in
+            ForEach(0..<listOfKnowns.count, id: \.self) { i in
                 HStack {
                     Picker("Type of known", selection: $listOfKnowns[i].typeOfVariable) {
                         ForEach(list(i: listOfKnowns[i].typeOfVariable), id: \.self) { j in
