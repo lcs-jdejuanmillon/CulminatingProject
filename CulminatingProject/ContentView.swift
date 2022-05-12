@@ -15,6 +15,17 @@ struct ContentView: View {
     @State var solutionType = 1
     @State var solutionUnit = 0
     @State var aux = [0]
+    @State var showButton: Bool {
+        if listOfKnowns.count < 3 {
+            return false
+        }
+        for i in 0..<listOfKnowns.count {
+            if !listOfKnowns[i].validInput || (!isVector[listOfKnowns[i].typeOfVariable] && listOfKnowns[i].value <= 0) {
+                return false
+            }
+        }
+        return true
+    }
     var body: some View {
         VStack(alignment: .leading) {
             Toggle(isOn: $customSigFigs, label: {Text("Custom Significant Figures")})
@@ -84,14 +95,16 @@ struct ContentView: View {
             }
             HStack {
                 Spacer()
-                Button("Show Solution") {
-                    
+                NavigationLink(destination: SolutionView()) {
+                    Button("Show Solution") {
+                        
+                    }
+                    .buttonStyle(.bordered)
+                    .cornerRadius(20)
                 }
-                .buttonStyle(.bordered)
-                .cornerRadius(20)
                 Spacer()
             }
-            .opacity(listOfKnowns.count < 3 ? 0.0 : 1.0)
+            .opacity(showButton ? 1.0 : 0.0)
         }
     }
     func list(i: Int) -> [Int] {
@@ -102,6 +115,16 @@ struct ContentView: View {
             }
         }
         return list
+    }
+    func getSigFigs() -> Int {
+        if customSigFigs {
+            return numberSigFigs
+        }
+        var sigFigs = 10
+        for i in 0..<listOfKnowns.count {
+            sigFigs = min(sigFigs, listOfKnowns[i].sigFigs)
+        }
+        return sigFigs
     }
 }
 
