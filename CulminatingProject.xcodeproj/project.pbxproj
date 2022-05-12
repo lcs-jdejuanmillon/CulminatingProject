@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D55F77B282D3E4600BB7102 /* GetNextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D55F77A282D3E4600BB7102 /* GetNextStep.swift */; };
 		0D6129892829D4D8003C1D06 /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6129882829D4D8003C1D06 /* Variable.swift */; };
 		0D61298B2829DBBE003C1D06 /* UnitsAndTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61298A2829DBBE003C1D06 /* UnitsAndTypes.swift */; };
 		0D701EAB2828A57F006F0C0B /* CulminatingProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D701EAA2828A57F006F0C0B /* CulminatingProjectApp.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D55F77A282D3E4600BB7102 /* GetNextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextStep.swift; sourceTree = "<group>"; };
 		0D6129882829D4D8003C1D06 /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 		0D61298A2829DBBE003C1D06 /* UnitsAndTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsAndTypes.swift; sourceTree = "<group>"; };
 		0D701EA72828A57F006F0C0B /* CulminatingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CulminatingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,7 @@
 				0D6129882829D4D8003C1D06 /* Variable.swift */,
 				0D61298A2829DBBE003C1D06 /* UnitsAndTypes.swift */,
 				0D72DB97282C19BD00E93EF4 /* SolutionView.swift */,
+				0D55F77A282D3E4600BB7102 /* GetNextStep.swift */,
 				0D701EAE2828A581006F0C0B /* Assets.xcassets */,
 				0D701EB02828A581006F0C0B /* Preview Content */,
 			);
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D55F77B282D3E4600BB7102 /* GetNextStep.swift in Sources */,
 				0D701EAD2828A57F006F0C0B /* ContentView.swift in Sources */,
 				0D61298B2829DBBE003C1D06 /* UnitsAndTypes.swift in Sources */,
 				0D72DB98282C19BD00E93EF4 /* SolutionView.swift in Sources */,

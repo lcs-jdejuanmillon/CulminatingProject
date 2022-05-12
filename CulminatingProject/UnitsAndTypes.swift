@@ -8,6 +8,8 @@
 import Foundation
 
 let types = ["Time", "Displacement", "Initial Velocity", "Final Velocity", "Acceleration"]
+ //   () sqrt squared * / + - = constants(1, 0.5, etc) trig
+let usefulSymbols = []
 let isVector = [false, true, true, true, true]
 struct unit {
     let text: String
